@@ -13,6 +13,7 @@ import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.pgvector.PgVectorStore;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 
@@ -45,9 +46,9 @@ public class OpenAiController implements IAiService {
     /**
      * curl http://localhost:8090/api/v1/openai/generate_stream?model=gpt-4o&message=1+1
      */
-    @RequestMapping(value = "generate_stream", method = RequestMethod.GET)
+    @RequestMapping(value = "generate_stream", method = RequestMethod.GET, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @Override
-    public Flux<ChatResponse> generateStream(String model, String message) {
+    public Flux<ChatResponse> generateStream(@RequestParam("model") String model, @RequestParam("message") String message) {
         return chatModel.stream(new Prompt(
                 message,
                 OpenAiChatOptions.builder()
@@ -56,9 +57,9 @@ public class OpenAiController implements IAiService {
         ));
     }
 
-    @RequestMapping(value = "generate_stream_rag", method = RequestMethod.GET)
+    @RequestMapping(value = "generate_stream_rag", method = RequestMethod.GET, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @Override
-    public Flux<ChatResponse> generateStreamRag(String model, String ragTag, String message) {
+    public Flux<ChatResponse> generateStreamRag(@RequestParam("model") String model, @RequestParam("ragTag") String ragTag, @RequestParam("message") String message) {
 
         String SYSTEM_PROMPT = """
                 Use the information from the DOCUMENTS section to provide accurate answers but act as if you knew this information innately.
@@ -77,8 +78,8 @@ public class OpenAiController implements IAiService {
         Message ragMessage = new SystemPromptTemplate(SYSTEM_PROMPT).createMessage(Map.of("documents", documentCollectors));
 
         List<Message> messages = new ArrayList<>();
-        messages.add(new UserMessage(message));
         messages.add(ragMessage);
+        messages.add(new UserMessage(message));
 
         return chatModel.stream(new Prompt(
                 messages,

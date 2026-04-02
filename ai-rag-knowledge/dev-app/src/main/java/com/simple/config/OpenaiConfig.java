@@ -35,7 +35,9 @@ public class OpenaiConfig {
 
     @Bean
     public PgVectorStore pgVectorStore(OpenAiEmbeddingModel embeddingModel, JdbcTemplate jdbcTemplate) {
-        return PgVectorStore.builder(jdbcTemplate, embeddingModel).build();
+        return PgVectorStore.builder(jdbcTemplate, embeddingModel)
+                .initializeSchema(true)
+                .build();
     }
 
 }

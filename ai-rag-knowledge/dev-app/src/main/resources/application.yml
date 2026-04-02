@@ -6,7 +6,8 @@ spring:
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: postgres
-    url: jdbc:postgresql://192.168.1.109:15432/ai-rag-knowledge
+    # 与本仓库 docker-compose 中 vector_db 一致：库名 springai，映射端口 5432
+    url: jdbc:postgresql://127.0.0.1:5432/springai
     type: com.zaxxer.hikari.HikariDataSource
     # hikari连接池配置
     hikari:
@@ -27,16 +28,14 @@ spring:
       # 连接测试query
       connection-test-query: SELECT 1
   ai:
-    ollama:
-      base-url: http://192.168.1.109:11434
-      embedding:
-        options:
-          num-batch: 512
-        model: nomic-embed-text
     openai:
-      base-url: https://pro-share-aws-api.zcyai.com/
-      api-key: sk-eEyfxptPgbfXd3Z164260740E0494161Bd8**找小傅哥申请
+      base-url: https://api.openai.com
+      api-key:
       embedding-model: text-embedding-ada-002
+      chat:
+        options:
+          model: gpt-4o-mini
+          temperature: 0.7
     rag:
       embed: nomic-embed-text #nomic-embed-text、text-embedding-ada-002
 
@@ -45,8 +44,9 @@ spring:
 redis:
   sdk:
     config:
-      host: 192.168.1.109
-      port: 16379
+      host: 127.0.0.1
+      port: 6379
+      password: mypassword
       pool-size: 10
       min-idle-size: 5
       idle-timeout: 30000
