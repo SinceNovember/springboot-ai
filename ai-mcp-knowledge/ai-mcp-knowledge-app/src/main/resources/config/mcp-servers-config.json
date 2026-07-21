@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem@2025.3.28",
+        "/Users/bigwang/Desktop",
+        "/Users/bigwang/Desktop"
+      ]
+    },
+    "mcp-server-computer": {
+      "command": "java",
+      "args": [
+        "-Dspring.ai.mcp.server.stdio=true",
+        "-jar",
+        "/Users/bigwang/.m2/repository/com/simple/ai-mcp-server-computer/1.0-SNAPSHOT/ai-mcp-server-computer-1.0-SNAPSHOT.jar"
+      ]
+    }
+  }
+}

@@ -9,12 +9,10 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ai-rag-knowledge</artifactId>
+    <artifactId>ai-agent-station</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>dev-api</module>
-        <module>dev-app</module>
-        <module>dev-trigger</module>
+        <module>ai-agent-station-api</module>
     </modules>
 
     <properties>
@@ -22,19 +20,19 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.simple</groupId>
-                <artifactId>dev-api</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-            <dependency>
-                <groupId>com.simple</groupId>
-                <artifactId>dev-trigger</artifactId>
-                <version>1.0-SNAPSHOT</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
+    <dependencies>
+
+
+        <!-- 工程模块；启动依赖 trigger->domain, infrastructure-->
+<!--        <dependency>-->
+<!--            <groupId>cn.bugstack.ai</groupId>-->
+<!--            <artifactId>ai-agent-station-trigger</artifactId>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>cn.bugstack.ai</groupId>-->
+<!--            <artifactId>ai-agent-station-infrastructure</artifactId>-->
+<!--        </dependency>-->
+    </dependencies>
 
 </project>

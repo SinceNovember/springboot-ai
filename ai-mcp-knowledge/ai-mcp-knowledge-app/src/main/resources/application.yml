@@ -36,6 +36,11 @@ spring:
         options:
           model: gpt-4o-mini
           temperature: 0.7
+    mcp:
+      client:
+        request-timeout: 360s
+        stdio:
+          servers-configuration: classpath:/config/mcp-servers-config.json
     rag:
       embed: nomic-embed-text #nomic-embed-text、text-embedding-ada-002
 

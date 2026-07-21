@@ -1,0 +1,74 @@
+server:
+  port: 8091
+  servlet:
+    context-path: /ai-agent-station
+
+# 线程池配置
+thread:
+  pool:
+    executor:
+      config:
+        core-pool-size: 20
+        max-pool-size: 50
+        keep-alive-time: 5000
+        block-queue-size: 5000
+        policy: CallerRunsPolicy
+
+# 数据库配置；启动时配置数据库资源信息
+spring:
+  datasource:
+    username: root
+    password: mypassword
+    url: jdbc:mysql://127.0.0.1:3306/ai-agent-station?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai&useSSL=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 1800000
+  main:
+    allow-bean-definition-overriding: true
+  #  main:
+  #    banner-mode: off
+  #    web-application-type: none
+  ai:
+    #    mcp:
+    #      client:
+    #        request-timeout: 180
+    #        sse:
+    #          connections:
+    #            server1:
+    #              url: http://localhost:8082
+    #            server2:
+    #              url: http://localhost:8081
+
+    #        stdio:
+    #          servers-configuration: classpath:/mcp-servers-config-2.json
+    # 个人配置，通过 http://127.0.0.1:8090 代理出去
+    vectorstore:
+      pgvector:
+        datasource:
+          driver-class-name: org.postgresql.Driver
+          username: postgres
+          password: postgres
+          url: jdbc:postgresql://127.0.0.1:5432/ai-rag-knowledge
+          type: com.zaxxer.hikari.HikariDataSource
+          hikari:
+            maximum-pool-size: 5
+            minimum-idle: 2
+            idle-timeout: 30000
+            connection-timeout: 30000
+    openai:
+      base-url: https://api.openai.com
+      api-key: ${OPENAI_API_KEY}
+# MyBatis 配置
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+  config-location: classpath:/mybatis/config/mybatis-config.xml
+
+# 日志
+logging:
+  level:
+    root: info
+  config: classpath:logback-spring.xml
