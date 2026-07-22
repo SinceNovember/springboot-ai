@@ -100,6 +100,11 @@
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-model-openai</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.simple</groupId>
+            <artifactId>ai-agent-station-infrastructure</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

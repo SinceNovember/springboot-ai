@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>ai-agent-station-api</module>
+        <module>ai-agent-station-infrastructure</module>
     </modules>
 
     <properties>
@@ -21,18 +22,33 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
-    <dependencies>
-
-
-        <!-- 工程模块；启动依赖 trigger->domain, infrastructure-->
+    <dependencyManagement>
+        <dependencies>
 <!--        <dependency>-->
-<!--            <groupId>cn.bugstack.ai</groupId>-->
-<!--            <artifactId>ai-agent-station-trigger</artifactId>-->
+<!--            <groupId>com.simple.ai</groupId>-->
+<!--            <artifactId>ai-agent-station-study-api</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
 <!--        </dependency>-->
 <!--        <dependency>-->
-<!--            <groupId>cn.bugstack.ai</groupId>-->
-<!--            <artifactId>ai-agent-station-infrastructure</artifactId>-->
+<!--            <groupId>com.simple.ai</groupId>-->
+<!--            <artifactId>ai-agent-station-study-domain</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
 <!--        </dependency>-->
+        <dependency>
+            <groupId>com.simple</groupId>
+            <artifactId>ai-agent-station-infrastructure</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.simple.ai</groupId>-->
+<!--            <artifactId>ai-agent-station-study-types</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.simple.ai</groupId>-->
+<!--            <artifactId>ai-agent-station-study-trigger</artifactId>-->
+<!--            <version>1.0-SNAPSHOT</version>-->
     </dependencies>
+    </dependencyManagement>
 
 </project>

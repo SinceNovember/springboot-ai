@@ -1,113 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.bugstack.ai.infrastructure.dao.IAiClientModelDao">
+<mapper namespace="com.simple.ai.infrastructure.dao.IAiClientModelDao">
 
-    <resultMap id="dataMap" type="cn.bugstack.ai.infrastructure.dao.po.AiClientModel">
+    <resultMap id="AiClientModelMap" type="com.simple.ai.infrastructure.dao.po.AiClientModel">
         <id column="id" property="id"/>
+        <result column="model_id" property="modelId"/>
+        <result column="api_id" property="apiId"/>
         <result column="model_name" property="modelName"/>
-        <result column="base_url" property="baseUrl"/>
-        <result column="api_key" property="apiKey"/>
-        <result column="completions_path" property="completionsPath"/>
-        <result column="embeddings_path" property="embeddingsPath"/>
         <result column="model_type" property="modelType"/>
-        <result column="model_version" property="modelVersion"/>
-        <result column="timeout" property="timeout"/>
+        <result column="model_usage" property="modelUsage"/>
         <result column="status" property="status"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
-    
-    <!-- 查询所有模型配置 -->
-    <select id="queryAllModelConfig" resultMap="dataMap">
-        SELECT id, model_name, base_url, api_key, completions_path, embeddings_path, model_type, model_version, timeout, status, create_time, update_time
-        FROM ai_client_model
-        ORDER BY id
-    </select>
-    
-    <!-- 根据ID查询模型配置 -->
-    <select id="queryModelConfigById" parameterType="java.lang.Long" resultMap="dataMap">
-        SELECT id, model_name, base_url, api_key, completions_path, embeddings_path, model_type, model_version, timeout, status, create_time, update_time
-        FROM ai_client_model
-        WHERE id = #{id}
-    </select>
-    
-    <!-- 根据模型名称查询模型配置 -->
-    <select id="queryModelConfigByName" parameterType="java.lang.String" resultMap="dataMap">
-        SELECT id, model_name, base_url, api_key, completions_path, embeddings_path, model_type, model_version, timeout, status, create_time, update_time
-        FROM ai_client_model
-        WHERE model_name = #{modelName}
-    </select>
-    
-    <!-- 插入模型配置 -->
-    <insert id="insert" parameterType="cn.bugstack.ai.infrastructure.dao.po.AiClientModel">
+
+    <insert id="insert" parameterType="com.simple.ai.infrastructure.dao.po.AiClientModel" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO ai_client_model (
-            model_name, base_url, api_key, completions_path, embeddings_path, model_type, model_version, timeout, status, create_time, update_time
+            model_id, api_id, model_name, model_type, model_usage, status, create_time, update_time
         ) VALUES (
-            #{modelName}, #{baseUrl}, #{apiKey}, #{completionsPath}, #{embeddingsPath}, #{modelType}, #{modelVersion}, #{timeout}, #{status}, #{createTime}, #{updateTime}
+            #{modelId}, #{apiId}, #{modelName}, #{modelType}, #{modelUsage}, #{status}, #{createTime}, #{updateTime}
         )
     </insert>
-    
-    <!-- 更新模型配置 -->
-    <update id="update" parameterType="cn.bugstack.ai.infrastructure.dao.po.AiClientModel">
-        UPDATE ai_client_model
-        SET model_name = #{modelName},
-            base_url = #{baseUrl},
-            api_key = #{apiKey},
-            completions_path = #{completionsPath},
-            embeddings_path = #{embeddingsPath},
+
+    <update id="updateById" parameterType="com.simple.ai.infrastructure.dao.po.AiClientModel">
+        UPDATE ai_client_model SET
+            model_id = #{modelId},
+            api_id = #{apiId},
+            model_name = #{modelName},
             model_type = #{modelType},
-            model_version = #{modelVersion},
-            timeout = #{timeout},
+            model_usage = #{modelUsage},
             status = #{status},
             update_time = #{updateTime}
         WHERE id = #{id}
     </update>
-    
-    <!-- 根据ID删除模型配置 -->
+
+    <update id="updateByModelId" parameterType="com.simple.ai.infrastructure.dao.po.AiClientModel">
+        UPDATE ai_client_model SET
+            api_id = #{apiId},
+            model_name = #{modelName},
+            model_type = #{modelType},
+            model_usage = #{modelUsage},
+            status = #{status},
+            update_time = #{updateTime}
+        WHERE model_id = #{modelId}
+    </update>
+
     <delete id="deleteById" parameterType="java.lang.Long">
-        DELETE FROM ai_client_model
-        WHERE id = #{id}
+        DELETE FROM ai_client_model WHERE id = #{id}
     </delete>
-    
-    <!-- 根据客户端ID列表查询模型配置 -->
-    <select id="queryModelConfigByClientIds" parameterType="java.util.List" resultMap="dataMap">
-        SELECT m.id, m.model_name, m.base_url, m.api_key, m.completions_path, m.embeddings_path, 
-               m.model_type, m.model_version, m.timeout, m.status, m.create_time, m.update_time
-        FROM ai_client_model m
-        WHERE m.id IN (
-            SELECT DISTINCT c.model_id 
-            FROM ai_client_model_config c 
-            WHERE c.client_id IN
-            <foreach collection="list" item="clientId" open="(" separator="," close=")">
-                #{clientId}
-            </foreach>
-        )
+
+    <delete id="deleteByModelId" parameterType="java.lang.String">
+        DELETE FROM ai_client_model WHERE model_id = #{modelId}
+    </delete>
+
+    <select id="queryById" parameterType="java.lang.Long" resultMap="AiClientModelMap">
+        SELECT id, model_id, api_id, model_name, model_type, model_usage, status, create_time, update_time
+        FROM ai_client_model
+        WHERE id = #{id}
     </select>
 
-    <select id="queryClientModelList" parameterType="cn.bugstack.ai.infrastructure.dao.po.AiClientModel" resultMap="dataMap">
-        SELECT 
-            id, model_name, base_url, api_key, completions_path, embeddings_path, 
-            model_type, model_version, timeout, status, create_time, update_time
-        FROM 
-            ai_client_model
-        <where>
-            <if test="id != null">
-                AND id = #{id}
-            </if>
-            <if test="modelName != null and modelName != ''">
-                AND model_name LIKE CONCAT('%', #{modelName}, '%')
-            </if>
-            <if test="modelType != null and modelType != ''">
-                AND model_type = #{modelType}
-            </if>
-            <if test="status != null">
-                AND status = #{status}
-            </if>
-        </where>
-        ORDER BY create_time DESC
-        <if test="pageSize != null and pageSize > 0">
-            LIMIT #{offset}, #{limit}
-        </if>
+    <select id="queryByModelId" parameterType="java.lang.String" resultMap="AiClientModelMap">
+        SELECT id, model_id, api_id, model_name, model_type, model_usage, status, create_time, update_time
+        FROM ai_client_model
+        WHERE model_id = #{modelId}
     </select>
-    
+
+    <select id="queryByApiId" parameterType="java.lang.String" resultMap="AiClientModelMap">
+        SELECT id, model_id, api_id, model_name, model_type, model_usage, status, create_time, update_time
+        FROM ai_client_model
+        WHERE api_id = #{apiId}
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="queryByModelType" parameterType="java.lang.String" resultMap="AiClientModelMap">
+        SELECT id, model_id, api_id, model_name, model_type, model_usage, status, create_time, update_time
+        FROM ai_client_model
+        WHERE model_type = #{modelType}
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="queryEnabledModels" resultMap="AiClientModelMap">
+        SELECT id, model_id, api_id, model_name, model_type, model_usage, status, create_time, update_time
+        FROM ai_client_model
+        WHERE status = 1
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="queryAll" resultMap="AiClientModelMap">
+        SELECT id, model_id, api_id, model_name, model_type, model_usage, status, create_time, update_time
+        FROM ai_client_model
+        ORDER BY create_time DESC
+    </select>
+
 </mapper>
