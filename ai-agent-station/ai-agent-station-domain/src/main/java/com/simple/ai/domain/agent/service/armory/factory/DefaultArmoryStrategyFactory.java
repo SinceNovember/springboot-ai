@@ -2,6 +2,10 @@ package com.simple.ai.domain.agent.service.armory.factory;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.simple.ai.domain.agent.model.entity.ArmoryCommandEntity;
+import com.simple.ai.domain.agent.service.armory.RootNode;
+import com.simple.wrench.design.framework.tree.StrategyHandler;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +20,16 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class DefaultArmoryStrategyFactory {
+
+    private final RootNode rootNode;
+
+    public DefaultArmoryStrategyFactory(RootNode rootNode) {
+        this.rootNode = rootNode;
+    }
+
+    public StrategyHandler<ArmoryCommandEntity, DynamicContext, String> armoryStrategyHandler(){
+        return rootNode;
+    }
 
     @Data
     @Builder
@@ -33,5 +47,4 @@ public class DefaultArmoryStrategyFactory {
             return (T) dataObjects.get(key);
         }
     }
-
 }

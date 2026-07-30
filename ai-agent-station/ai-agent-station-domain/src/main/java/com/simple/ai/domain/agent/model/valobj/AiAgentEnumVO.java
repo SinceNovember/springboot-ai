@@ -2,7 +2,6 @@ package com.simple.ai.domain.agent.model.valobj;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 /**
  * Agent 通用枚举
@@ -12,7 +11,6 @@ import lombok.NoArgsConstructor;
  */
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
 public enum AiAgentEnumVO {
 
     AI_CLIENT_API("对话API", "api", "ai_client_api_", "ai_client_api_data_list", "aiClientApiLoadDataStrategy"),
