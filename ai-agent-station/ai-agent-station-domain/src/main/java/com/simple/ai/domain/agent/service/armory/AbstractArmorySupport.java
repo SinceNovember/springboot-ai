@@ -42,6 +42,14 @@ public abstract class AbstractArmorySupport extends
         throws ExecutionException, InterruptedException, TimeoutException {
         // 缺省的
     }
+    protected String beanName(String id) {
+        return null;
+    }
+
+    protected String dataName() {
+        return null;
+    }
+
 
     protected synchronized <T> void registerBean(String beanName, Class<T> beanClass, T beanInstance) {
         DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) applicationContext.getAutowireCapableBeanFactory();

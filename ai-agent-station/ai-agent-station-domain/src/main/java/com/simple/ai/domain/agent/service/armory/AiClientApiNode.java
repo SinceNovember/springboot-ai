@@ -7,8 +7,10 @@ import com.simple.ai.domain.agent.model.valobj.AiAgentEnumVO;
 import com.simple.ai.domain.agent.model.valobj.AiClientApiVO;
 import com.simple.ai.domain.agent.service.armory.factory.DefaultArmoryStrategyFactory;
 import com.simple.wrench.design.framework.tree.StrategyHandler;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.openai.api.OpenAiApi;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,8 +23,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class AiClientApiNode extends AbstractArmorySupport {
 
+    @Resource
+    private AiClientToolMcpNode aiClientToolMcpNode;
+
+    @Value("${OPENAI_API_KEY}")
+    private String openAIKey;
+
+
     @Override
-    protected String doApply(ArmoryCommandEntity requestParameter, DefaultArmoryStrategyFactory.DynamicContext dynamicContext) throws Exception {
+    protected String doApply(ArmoryCommandEntity requestParameter,
+                             DefaultArmoryStrategyFactory.DynamicContext dynamicContext) throws Exception {
+
         log.info("Ai Agent 构建，API 构建节点 {}", JSON.toJSONString(requestParameter));
 
         List<AiClientApiVO> aiClientApiList = dynamicContext.getValue(AiAgentEnumVO.AI_CLIENT_API.getDataName());
@@ -35,11 +46,12 @@ public class AiClientApiNode extends AbstractArmorySupport {
         for (AiClientApiVO aiClientApiVO : aiClientApiList) {
             // 构建 OpenAiApi
             OpenAiApi openAiApi = OpenAiApi.builder()
-                    .baseUrl(aiClientApiVO.getBaseUrl())
-                    .apiKey(aiClientApiVO.getApiKey())
-                    .completionsPath(aiClientApiVO.getCompletionsPath())
-                    .embeddingsPath(aiClientApiVO.getEmbeddingsPath())
-                    .build();
+                .baseUrl(aiClientApiVO.getBaseUrl())
+//                .apiKey(aiClientApiVO.getApiKey())
+                .apiKey(openAIKey)
+                .completionsPath(aiClientApiVO.getCompletionsPath())
+                .embeddingsPath(aiClientApiVO.getEmbeddingsPath())
+                .build();
 
             // 注册 OpenAiApi Bean 对象
             registerBean(AiAgentEnumVO.AI_CLIENT_API.getBeanName(aiClientApiVO.getApiId()), OpenAiApi.class, openAiApi);
@@ -50,7 +62,18 @@ public class AiClientApiNode extends AbstractArmorySupport {
 
     @Override
     public StrategyHandler<ArmoryCommandEntity, DefaultArmoryStrategyFactory.DynamicContext, String> get(ArmoryCommandEntity armoryCommandEntity, DefaultArmoryStrategyFactory.DynamicContext dynamicContext) throws Exception {
-        return defaultStrategyHandler;
+        return aiClientToolMcpNode;
     }
+
+    @Override
+    protected String beanName(String beanId) {
+        return AiAgentEnumVO.AI_CLIENT_API.getBeanName(beanId);
+    }
+
+    @Override
+    protected String dataName() {
+        return AiAgentEnumVO.AI_CLIENT_API.getDataName();
+    }
+
 
 }
