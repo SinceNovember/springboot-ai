@@ -15,6 +15,9 @@
         <module>ai-agent-station-app</module>
         <module>ai-agent-station-infrastructure</module>
         <module>ai-agent-station-domain</module>
+        <module>ai-agent-station-types</module>
+        <module>ai-agent-station-trigger</module>
+        <module>ai-agent-station-api</module>
     </modules>
 
     <properties>
@@ -46,16 +49,22 @@
                 <artifactId>wrench-starter-design-framework</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.simple.ai</groupId>-->
-<!--            <artifactId>ai-agent-station-study-types</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.simple.ai</groupId>-->
-<!--            <artifactId>ai-agent-station-study-trigger</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-    </dependencies>
+        <dependency>
+            <groupId>com.simple</groupId>
+            <artifactId>ai-agent-station-types</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.simple</groupId>
+            <artifactId>ai-agent-station-trigger</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.simple</groupId>
+            <artifactId>ai-agent-station-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        </dependencies>
     </dependencyManagement>
 
 </project>

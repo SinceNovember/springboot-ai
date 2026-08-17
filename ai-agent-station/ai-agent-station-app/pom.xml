@@ -105,6 +105,14 @@
             <groupId>com.simple</groupId>
             <artifactId>ai-agent-station-infrastructure</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.simple</groupId>
+            <artifactId>ai-agent-station-trigger</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.simple</groupId>
+            <artifactId>ai-agent-station-types</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

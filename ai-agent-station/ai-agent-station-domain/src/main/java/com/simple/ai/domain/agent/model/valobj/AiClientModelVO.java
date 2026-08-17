@@ -1,10 +1,11 @@
 package com.simple.ai.domain.agent.model.valobj;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * 聊天模型配置，值对象
@@ -41,6 +42,5 @@ public class AiClientModelVO {
      * 工具 mcp ids
      */
     private List<String> toolMcpIds;
-
 
 }

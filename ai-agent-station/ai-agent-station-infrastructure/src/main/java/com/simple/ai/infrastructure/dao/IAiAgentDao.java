@@ -3,6 +3,7 @@ package com.simple.ai.infrastructure.dao;
 import java.util.List;
 import com.simple.ai.infrastructure.dao.po.AiAgent;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * AI智能体配置表 DAO
@@ -45,7 +46,7 @@ public interface IAiAgentDao {
      * @param agentId 智能体ID
      * @return 影响行数
      */
-    int deleteByAgentId(String agentId);
+    int deleteByAgentId(@Param("agentId") String agentId);
 
     /**
      * 根据ID查询AI智能体配置
@@ -59,7 +60,7 @@ public interface IAiAgentDao {
      * @param agentId 智能体ID
      * @return AI智能体配置对象
      */
-    AiAgent queryByAgentId(String agentId);
+    AiAgent queryByAgentId(@Param("agentId") String agentId);
 
     /**
      * 查询所有启用的AI智能体配置
@@ -72,7 +73,7 @@ public interface IAiAgentDao {
      * @param channel 渠道类型
      * @return AI智能体配置列表
      */
-    List<AiAgent> queryByChannel(String channel);
+    List<AiAgent> queryByChannel(@Param("channel") String channel);
 
     /**
      * 查询所有AI智能体配置

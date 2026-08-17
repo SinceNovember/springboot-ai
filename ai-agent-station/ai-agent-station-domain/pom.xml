@@ -81,12 +81,11 @@
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-mcp-client-webflux</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.simple</groupId>
+            <artifactId>ai-agent-station-types</artifactId>
+        </dependency>
 
-        <!--        &lt;!&ndash; 系统模块 &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.simple.ai</groupId>-->
-<!--            <artifactId>ai-agent-station-study-types</artifactId>-->
-<!--        </dependency>-->
     </dependencies>
 
     <build>

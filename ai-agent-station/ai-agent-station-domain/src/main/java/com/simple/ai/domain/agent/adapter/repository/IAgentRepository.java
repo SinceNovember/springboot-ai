@@ -1,12 +1,9 @@
 package com.simple.ai.domain.agent.adapter.repository;
 
+import com.simple.ai.domain.agent.model.valobj.*;
+
 import java.util.List;
-import com.simple.ai.domain.agent.model.valobj.AiClientAdvisorVO;
-import com.simple.ai.domain.agent.model.valobj.AiClientApiVO;
-import com.simple.ai.domain.agent.model.valobj.AiClientModelVO;
-import com.simple.ai.domain.agent.model.valobj.AiClientSystemPromptVO;
-import com.simple.ai.domain.agent.model.valobj.AiClientToolMcpVO;
-import com.simple.ai.domain.agent.model.valobj.AiClientVO;
+import java.util.Map;
 
 /**
  * AiAgent 仓储接口
@@ -24,6 +21,8 @@ public interface IAgentRepository {
 
     List<AiClientSystemPromptVO> AiClientSystemPromptVOByClientIds(List<String> clientIdList);
 
+    Map<String, AiClientSystemPromptVO> queryAiClientSystemPromptMapByClientIds(List<String> clientIdList);
+
     List<AiClientAdvisorVO> AiClientAdvisorVOByClientIds(List<String> clientIdList);
 
     List<AiClientVO> AiClientVOByClientIds(List<String> clientIdList);
@@ -31,5 +30,25 @@ public interface IAgentRepository {
     List<AiClientApiVO> queryAiClientApiVOListByModelIds(List<String> modelIdList);
 
     List<AiClientModelVO> AiClientModelVOByModelIds(List<String> modelIdList);
+
+    Map<String, AiAgentClientFlowConfigVO> queryAiAgentClientFlowConfig(String aiAgentId);
+
+    AiAgentVO queryAiAgentByAgentId(String aiAgentId);
+
+    List<AiAgentClientFlowConfigVO> queryAiAgentClientsByAgentId(String aiAgentId);
+
+    List<AiAgentTaskScheduleVO> queryAllValidTaskSchedule();
+
+    List<Long> queryAllInvalidTaskScheduleIds();
+
+    void createTagOrder(AiRagOrderVO aiRagOrderVO);
+
+    /**
+     * 查询可用的智能体列表
+     * @return 可用的智能体列表
+     */
+    List<AiAgentVO> queryAvailableAgents();
+
+    List<AiClientApiVO> queryAiClientApiVOListByApiIds(List<String> apiIdList);
 
 }
