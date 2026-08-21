@@ -1,21 +1,29 @@
-# Progress: validate-login 404
+# Progress: create_session Referrer Policy
 
 ## 现象
-前端调用 `http://127.0.0.1:8099/api/v1/admin/admin-user/validate-login` 失败。
-浏览器 Network 里的 `Referrer Policy` **不是错误**。
+调用 `http://127.0.0.1:8091/api/v1/create_session`，Chrome Network 显示
+`Referrer Policy: strict-origin-when-cross-origin`。
 
-## 根因
-后端 `application-dev.yml` 配置了 `context-path: /ai-agent-station`，
-前端 `api.ts` 的 `BASE_DOMAIN` 未带此前缀 → 实际 404。
+## 结论
+这不是真正的错误。Chrome 对每个请求都会展示 Referrer Policy。
+真正失败原因是接口约定不匹配：
 
-验证：
-- 无前缀 → 404
-- 有前缀 `.../ai-agent-station/api/v1/admin/admin-user/validate-login` → 200（业务码 0001 为账号/密码或库数据问题）
+- 前端 `index.html` 用 **POST + JSON body**
+- 后端原先是 **GET + @RequestBody**
+- 浏览器地址栏 GET **不会带 JSON body**
+- POST 打到仅 GET 的接口 → **405**；GET 无 body → **400**
+- 失败请求旁就会看到那行 Referrer Policy
 
-## 最终方案（按用户要求）
-- 删除后端 `server.servlet.context-path: /ai-agent-station`（dev/prod）
-- 前端保持原样：`BASE_DOMAIN=http://127.0.0.1:8099`（已还原先前改动）
-- 接口地址：`http://127.0.0.1:8099/api/v1/admin/admin-user/validate-login`
+## 修复
+`AgentServiceController#create_session`：
+- POST `/api/v1/create_session` + JSON `{agentId, userId}`（页面用法）
+- GET `/api/v1/create_session?agentId=100001&userId=admin`（地址栏/curl）
+- CORS 显式允许 GET/POST/OPTIONS
+
+## 验证
+重启后端后：
+- 页面发消息应能创建会话
+- 浏览器打开：`http://127.0.0.1:8091/api/v1/create_session?agentId=100001&userId=admin`
 
 ## 状态
-需重启后端使配置生效。
+代码已改，需重启 `ai-agent-scaffold-lite-app`。

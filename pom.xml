@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.simple</groupId>
+    <groupId>com.simple.ai</groupId>
     <artifactId>springboot-ai</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -14,6 +14,8 @@
         <module>ai-mcp-knowledge/ai-mcp-knowledge-trigger</module>
         <module>ai-mcp-knowledge/ai-mcp-server-computer</module>
         <module>ai-agent-station</module>
+        <module>ai-agent-scaffold-lite</module>
+        <module>ai-agent-scaffold-lite/ai-agent-scaffold-lite-trigger</module>
     </modules>
 
 
@@ -23,6 +25,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-ai.version>1.0.0</spring-ai.version>
         <lombok.version>1.18.38</lombok.version>
+        <google.adk.version>0.5.0</google.adk.version>
     </properties>
 
     <dependencyManagement>
@@ -88,6 +91,63 @@
                 <groupId>com.auth0</groupId>
                 <artifactId>java-jwt</artifactId>
                 <version>4.4.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.thoughtworks.xstream</groupId>
+                <artifactId>xstream</artifactId>
+                <version>1.4.10</version>
+            </dependency>
+            <dependency>
+                <groupId>dom4j</groupId>
+                <artifactId>dom4j</artifactId>
+                <version>1.6.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.adk</groupId>
+                <artifactId>google-adk</artifactId>
+                <version>${google.adk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.adk</groupId>
+                <artifactId>google-adk-dev</artifactId>
+                <version>${google.adk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.adk</groupId>
+                <artifactId>google-adk-spring-ai</artifactId>
+                <version>${google.adk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.adk.samples</groupId>
+                <artifactId>google-adk-sample-helloworld</artifactId>
+                <version>${google.adk.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.adk</groupId>
+                <artifactId>google-adk-contrib-langchain4j</artifactId>
+                <version>0.2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.langchain4j</groupId>
+                <artifactId>langchain4j-bom</artifactId>
+                <version>1.4.0</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springaicommunity</groupId>
+                <artifactId>spring-ai-agent-utils</artifactId>
+                <version>0.4.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.simple</groupId>
+                <artifactId>wrench-starter-design-framework</artifactId>
+                <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

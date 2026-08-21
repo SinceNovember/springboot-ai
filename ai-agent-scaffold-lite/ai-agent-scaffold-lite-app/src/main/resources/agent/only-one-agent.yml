@@ -1,0 +1,42 @@
+ai:
+  agent:
+    config:
+      tables:
+        testAgent03:
+          app-name: testAgent03
+          agent:
+            agent-id: 100003
+            agent-name: 单一智能体
+            agent-desc: 单一智能体
+          module:
+            ai-api:
+              # DeepSeek 开放平台，接口兼容 OpenAI 协议，仍由 OpenAiApi 装配
+              base-url: https://api.deepseek.com
+              api-key: ${DEEPSEEK_API_KEY:sk-your-deepseek-api-key}
+              completions-path: /chat/completions
+              # DeepSeek 没有向量化接口，embeddings-path 仅为占位
+              embeddings-path: /embeddings
+            chat-model:
+              # 原始配置（保留）：model: gpt-4.1
+              model: deepseek-chat
+              tool-skills-list:
+                - type: resource
+                  path: agent/skills
+              tool-mcp-list:
+#                - sse:
+#                    name: baidu-search
+#                    base-uri: http://appbuilder.baidu.com/v2/ai_search/mcp/
+#                    sse-endpoint: sse?api_key=
+#                    request-timeout: 500000
+                - local:
+                    name: myToolCallbackProvider
+            agents:
+              - name: onlyAgent
+                description: 小傅哥学习项目计划
+                instruction: |
+                  通过百度检索小傅哥编程实战项目，并根据检索内容，针对初学用户给出学习计划。
+            runner:
+              agent-name: onlyAgent
+              plugin-name-list:
+                - myTestPlugin
+                - myLogPlugin
